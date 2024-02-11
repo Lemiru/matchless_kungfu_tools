@@ -36,19 +36,19 @@ def shortest_sequence_in_order(incomplete_sequence):
 if __name__ == '__main__':
     df = pd.read_csv('data/inner.csv', index_col=0, names=['Sequence'])
     required_sequences = [x for x in map(lambda x: df.at[x, 'Sequence'], desired_techniques)]
-    all_sequence_orders = list(permutations(required_sequences))
+    all_sequence_orders = permutations(required_sequences)
     incomplete_sequences = []
+    found_sequences = []
     for sequence_order in all_sequence_orders:
         incomplete_sequences.append((sequence_order[0], list(sequence_order[1:])))
-    found_sequences = []
-    while incomplete_sequences:
-        result = shortest_sequence_in_order(incomplete_sequences.pop())
-        if not isinstance(result, str):
-            incomplete_sequences.append(result[0])
-            incomplete_sequences.append(result[1])
-        elif len(result) < max_length:
-            if result not in found_sequences:
-                found_sequences.append(result)
+        while incomplete_sequences:
+            result = shortest_sequence_in_order(incomplete_sequences.pop())
+            if not isinstance(result, str):
+                incomplete_sequences.append(result[0])
+                incomplete_sequences.append(result[1])
+            elif len(result) < max_length:
+                if result not in found_sequences:
+                    found_sequences.append(result)
     if found_sequences:
         found_sequences = sorted(found_sequences, key=lambda x: len(x))
         shortest_len = len(found_sequences[0])
