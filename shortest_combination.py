@@ -49,10 +49,13 @@ if __name__ == '__main__':
         elif len(result) < max_length:
             if result not in found_sequences:
                 found_sequences.append(result)
-    found_sequences = sorted(found_sequences, key=lambda x: len(x))
-    shortest_len = len(found_sequences[0])
-    index = 0
-    print(f'shortest sequences(length of {shortest_len}) found:')
-    while len(found_sequences[index]) == shortest_len:
-        print(found_sequences[index])
-        index += 1
+    if found_sequences:
+        found_sequences = sorted(found_sequences, key=lambda x: len(x))
+        shortest_len = len(found_sequences[0])
+        index = 0
+        print(f'shortest sequences(length of {shortest_len}) found:')
+        while len(found_sequences[index]) == shortest_len:
+            print(found_sequences[index])
+            index += 1
+    else:
+        print('No sequences found')
