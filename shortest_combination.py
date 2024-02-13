@@ -1,3 +1,5 @@
+import time
+
 import pandas as pd
 
 from itertools import permutations
@@ -19,8 +21,7 @@ def checksubstring(a, b):
 
 def shortest_substring(a, b):
     x = checksubstring(a, b)
-    y = checksubstring(b, a)
-    return x if len(x) < len(y) else y if len(x) > len(y) else (x, y)
+    return x
 
 
 def shortest_sequence_in_order(incomplete_sequence):
@@ -43,10 +44,7 @@ if __name__ == '__main__':
         incomplete_sequences.append((sequence_order[0], list(sequence_order[1:])))
         while incomplete_sequences:
             result = shortest_sequence_in_order(incomplete_sequences.pop())
-            if not isinstance(result, str):
-                incomplete_sequences.append(result[0])
-                incomplete_sequences.append(result[1])
-            elif len(result) < max_length:
+            if len(result) < max_length:
                 if result not in found_sequences:
                     found_sequences.append(result)
     if found_sequences:
