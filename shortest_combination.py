@@ -29,14 +29,22 @@ def shortest_sequence_in_order(incomplete_sequence):
     sequences_to_add = incomplete_sequence[1]
     while sequences_to_add:
         sequence = shortest_substring(sequence, sequences_to_add.pop(0))
-        if not isinstance(sequence, str):
-            return (sequence[0], sequences_to_add.copy()), (sequence[1], sequences_to_add.copy())
     return sequence
 
 
 if __name__ == '__main__':
     df = pd.read_csv('data/inner.csv', index_col=0, names=['Sequence'])
     required_sequences = [x for x in map(lambda x: df.at[x, 'Sequence'], desired_techniques)]
+    temp = []
+    for x in required_sequences:
+        contained = False
+        for y in required_sequences:
+            if x != y and x in y:
+                contained = True
+                break
+        if not contained:
+            temp.append(x)
+    required_sequences = temp
     all_sequence_orders = permutations(required_sequences)
     incomplete_sequences = []
     found_sequences = []
@@ -52,7 +60,7 @@ if __name__ == '__main__':
         shortest_len = len(found_sequences[0])
         index = 0
         print(f'shortest sequences(length of {shortest_len}) found:')
-        while len(found_sequences[index]) == shortest_len:
+        while index < len(found_sequences) and len(found_sequences[index]) == shortest_len:
             print(found_sequences[index])
             index += 1
     else:
